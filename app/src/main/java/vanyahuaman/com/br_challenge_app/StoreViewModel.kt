@@ -7,7 +7,7 @@ import android.arch.lifecycle.LiveData
 class StoreViewModel(application: Application) : AndroidViewModel(application) {
 
     private val repository: StoreRepository = StoreRepository(application)
-    internal val allStores: LiveData<List<StoreObject>>
+    val allStores: LiveData<List<StoreObject>>
 
     init {
         allStores = repository.allStores

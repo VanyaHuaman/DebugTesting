@@ -7,7 +7,7 @@ import android.arch.persistence.room.RoomDatabase
 import android.content.Context
 import android.os.AsyncTask
 
-@Database(entities = arrayOf(StoreObject::class), version = 1)
+@Database(entities = [StoreObject::class], version = 1)
 abstract class StoreRoomDatabase : RoomDatabase() {
 
     abstract fun storeDao(): StoreDao
@@ -31,12 +31,12 @@ abstract class StoreRoomDatabase : RoomDatabase() {
 
         var INSTANCE: StoreRoomDatabase? = null
 
-        internal fun getDatabase(context: Context): StoreRoomDatabase {
+        fun getDatabase(context: Context): StoreRoomDatabase {
             if (INSTANCE == null) {
                 synchronized(StoreRoomDatabase::class.java) {
                     if (INSTANCE == null) {
-                        INSTANCE = Room.databaseBuilder(context.applicationContext,
-                                StoreRoomDatabase::class.java, "store_database")
+                        INSTANCE = Room.databaseBuilder(context,
+                                StoreRoomDatabase::class.java, "storedatabase")
                                 .addCallback(sRoomDatabaseCallback)
                                 .allowMainThreadQueries()
                                 .build()

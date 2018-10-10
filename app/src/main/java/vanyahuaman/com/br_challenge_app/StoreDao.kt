@@ -8,8 +8,8 @@ import android.arch.persistence.room.Query
 @Dao
 interface StoreDao {
 
-    @get:Query("SELECT * from store_table")
-    val allStores: LiveData<List<StoreObject>>
+    @Query("SELECT * from store_table")
+    fun allStores(): LiveData<List<StoreObject>>
 
     @Insert
     fun insert(store: StoreObject)

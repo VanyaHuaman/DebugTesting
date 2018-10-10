@@ -7,12 +7,12 @@ import android.os.AsyncTask
 class StoreRepository internal constructor(application: Application) {
 
     private val storeDao: StoreDao
-    internal val allStores: LiveData<List<StoreObject>>
+    val allStores: LiveData<List<StoreObject>>
 
     init {
-        val db = StoreRoomDatabaseJava.getDatabase(application)
+        val db = StoreRoomDatabase.getDatabase(application)
         storeDao = db.storeDao()
-        allStores = storeDao.allStores
+        allStores = storeDao.allStores()
     }
 
     fun insert(store: StoreObject) {

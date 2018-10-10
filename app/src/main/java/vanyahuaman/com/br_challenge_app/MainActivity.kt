@@ -2,6 +2,8 @@ package vanyahuaman.com.br_challenge_app
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
+import android.arch.persistence.room.Room
+import android.arch.persistence.room.RoomDatabase
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkInfo
@@ -34,10 +36,7 @@ class MainActivity : AppCompatActivity() {
                     Snackbar.LENGTH_INDEFINITE).show()
         }
 
-        val db = StoreRoomDatabase.getDatabase(this)
-        val storeDao = db.storeDao().allStores
-
-        storeDao.value.toString()
+        val db:Database = Room.databaseBuilder(getApplicationContext(),Database::class.java,"storedatabase").build()
 
 
     }
