@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">BR_Challenge_App</string>
+    <string name="store_name_default">Store Name</string>
+    <string name="store_number_label">Store#:</string>
+</resources>
