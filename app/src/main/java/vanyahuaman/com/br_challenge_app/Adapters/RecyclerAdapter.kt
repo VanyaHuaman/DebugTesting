@@ -1,5 +1,7 @@
 package vanyahuaman.com.br_challenge_app.Adapters
 
+import android.app.Activity
+import android.app.ActivityOptions
 import android.content.Context
 import android.content.Intent
 import android.support.v7.widget.RecyclerView
@@ -14,10 +16,11 @@ import vanyahuaman.com.br_challenge_app.R
 import vanyahuaman.com.br_challenge_app.data.StoreObject
 
 
-class RecyclerAdapter(storesArray: MutableList<StoreObject>): RecyclerView.Adapter<RecyclerAdapter.ViewHolder>() {
+class RecyclerAdapter(storesArray: MutableList<StoreObject>,activity: Activity): RecyclerView.Adapter<RecyclerAdapter.ViewHolder>(){
 
     var stores = storesArray
     private lateinit var context:Context
+    val passedActivity = activity
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val v:View = LayoutInflater.from(parent.context).inflate(R.layout.list_item,parent,false)
@@ -53,12 +56,14 @@ class RecyclerAdapter(storesArray: MutableList<StoreObject>): RecyclerView.Adapt
 
         holder.parentLayout.setOnClickListener {
             val intent = Intent(context, DetailActivity::class.java)
-                intent.putExtra("store",stores[position])
-                context.startActivity(intent)
+            val options = ActivityOptions.makeSceneTransitionAnimation(
+                    passedActivity,holder.storeImage,"storeLogo")
+            intent.putExtra("store",stores[position])
+            context.startActivity(intent,options.toBundle())
         }
     }
 
-    class ViewHolder(itemView : View) : RecyclerView.ViewHolder(itemView) {
+    class ViewHolder(itemView : View) : RecyclerView.ViewHolder(itemView){
         val parentLayout = itemView.item_root
         val storeName = itemView.item_store_name
         val storeID = itemView.item_store_num
@@ -66,4 +71,6 @@ class RecyclerAdapter(storesArray: MutableList<StoreObject>): RecyclerView.Adapt
         val storeAddress = itemView.item_store_address
         val storeImage = itemView.item_image
     }
+
+
 }

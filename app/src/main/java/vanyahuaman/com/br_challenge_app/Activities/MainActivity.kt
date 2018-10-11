@@ -1,8 +1,11 @@
 package vanyahuaman.com.br_challenge_app.Activities
 
+import android.app.Activity
+import android.app.ActivityOptions
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
+import android.content.Intent
 import android.net.ConnectivityManager
 import android.net.NetworkInfo
 import android.os.Bundle
@@ -10,12 +13,16 @@ import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.view.View
+import android.widget.Toast
 import com.google.gson.GsonBuilder
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.list_item.view.*
 import okhttp3.*
 import vanyahuaman.com.br_challenge_app.R
 import vanyahuaman.com.br_challenge_app.Adapters.RecyclerAdapter
 import vanyahuaman.com.br_challenge_app.Database.StoreViewModel
+import vanyahuaman.com.br_challenge_app.R.id.recycler_view
 import vanyahuaman.com.br_challenge_app.data.StoreObject
 import java.io.IOException
 
@@ -24,12 +31,14 @@ class MainActivity : AppCompatActivity() {
 
     lateinit var recyclerView:RecyclerView
     lateinit var storeViewModel: StoreViewModel
+    val activity:Activity = this
     val databaseURL =
             "http://sandbox.bottlerocketapps.com/BR_Android_CodingExam_2015_Server/stores.json"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
         title = "Stores"
         recyclerView = recycler_view
         recyclerView.layoutManager = LinearLayoutManager(this)
@@ -54,7 +63,7 @@ class MainActivity : AppCompatActivity() {
             .allStores
             .observe(this@MainActivity, Observer<List<StoreObject>>() {
                 if(it != null){
-                    recyclerView.adapter = RecyclerAdapter(it as MutableList<StoreObject>)
+                    recyclerView.adapter = RecyclerAdapter(it as MutableList<StoreObject>,activity)
                     recyclerView.adapter.notifyDataSetChanged()
                 }
             })
