@@ -9,10 +9,16 @@ class StoreRepository internal constructor(application: Application) {
     private val storeDao: StoreDao
     val allStores: LiveData<List<StoreObject>>
 
+
     init {
         val db = StoreRoomDatabase.getDatabase(application)
         storeDao = db.storeDao()
         allStores = storeDao.allStores()
+
+    }
+
+    fun deleteAll() {
+        storeDao.deleteAll()
     }
 
     fun insert(store: StoreObject) {

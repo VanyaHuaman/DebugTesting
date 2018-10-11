@@ -12,21 +12,6 @@ abstract class StoreRoomDatabase : RoomDatabase() {
 
     abstract fun storeDao(): StoreDao
 
-    private class PopulateDbAsync internal constructor(db: StoreRoomDatabase) : AsyncTask<Void, Void, Void>() {
-
-        val mDao: StoreDao = db.storeDao()
-
-        override fun doInBackground(vararg params: Void): Void? {
-            mDao.deleteAll()
-            var store = StoreObject(0,"NA","NA","NA","NA","NA","NA","NA","NA","NA","NA")
-            mDao.insert(store)
-            store = StoreObject(1,"NA","NA","NA","NA","NA","NA","NA","NA","NA","NA")
-            mDao.insert(store)
-
-            return null
-        }
-    }
-
     companion object {
 
         var INSTANCE: StoreRoomDatabase? = null
@@ -37,7 +22,6 @@ abstract class StoreRoomDatabase : RoomDatabase() {
                     if (INSTANCE == null) {
                         INSTANCE = Room.databaseBuilder(context,
                                 StoreRoomDatabase::class.java, "storedatabase")
-                                .addCallback(sRoomDatabaseCallback)
                                 .allowMainThreadQueries()
                                 .build()
                     }
@@ -46,12 +30,5 @@ abstract class StoreRoomDatabase : RoomDatabase() {
             return INSTANCE!!
         }
 
-        private val sRoomDatabaseCallback = object : RoomDatabase.Callback() {
-
-            override fun onOpen(db: SupportSQLiteDatabase) {
-                super.onOpen(db)
-                PopulateDbAsync(INSTANCE!!).execute()
-            }
-        }
     }
 }

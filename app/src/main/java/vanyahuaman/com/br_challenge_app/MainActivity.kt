@@ -17,26 +17,39 @@ import com.google.gson.GsonBuilder
 import kotlinx.android.synthetic.main.activity_main.*
 import okhttp3.*
 import java.io.IOException
+import kotlin.concurrent.thread
+
+var db = StoreRoomDatabase
 
 class MainActivity : AppCompatActivity() {
 
     lateinit var recyclerView:RecyclerView
+    lateinit var storeViewModel:StoreViewModel
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        var storeArray = mutableListOf<StoreObject>()
         recyclerView = recycler_view
         recyclerView.layoutManager = LinearLayoutManager(this)
+        recyclerView.adapter = RecyclerAdapter(storeArray)
 
         if(networkAvailable()){
+
+            storeViewModel = ViewModelProviders.of(this@MainActivity).get(StoreViewModel::class.java)
+            storeViewModel.allStores.observe(this@MainActivity, Observer<List<StoreObject>>() {
+                if(it != null){
+                    recyclerView.adapter = RecyclerAdapter(it as MutableList<StoreObject>)
+                    recyclerView.adapter.notifyDataSetChanged()
+                }
+            })
             buildStoreArray()
         }else{
             Snackbar.make(recyclerView,
                     "NO INTERNET CONNECTION",
                     Snackbar.LENGTH_INDEFINITE).show()
         }
-
-        val db:Database = Room.databaseBuilder(getApplicationContext(),Database::class.java,"storedatabase").build()
 
 
     }
@@ -60,17 +73,22 @@ class MainActivity : AppCompatActivity() {
             }
 
             override fun onResponse(call: Call, response: Response) {
+
+                storeViewModel.deleteAll()
                 val body = response.body()?.string()
                 val gson = GsonBuilder().create()
 
                 val jsonArray = gson.fromJson(body,StoreJsonArray::class.java)
                 for (store in jsonArray.stores){
                     tempArray.add(store)
+                    storeViewModel.insert(store)
                 }
 
-                runOnUiThread{
-                    recyclerView.adapter = RecyclerAdapter(tempArray)
-                }
+
+
+//                runOnUiThread{
+//                    recyclerView.adapter = RecyclerAdapter(tempArray)
+//                }
             }
             })
     }

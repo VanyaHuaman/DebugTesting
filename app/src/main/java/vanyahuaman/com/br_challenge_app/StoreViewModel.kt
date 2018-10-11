@@ -17,5 +17,8 @@ class StoreViewModel(application: Application) : AndroidViewModel(application) {
         repository.insert(store)
     }
 
+    fun deleteAll(){
+        repository.deleteAll()
+    }
 
 }
