@@ -27,6 +27,6 @@ abstract class StoreRoomDatabase : RoomDatabase() {
             }
             return INSTANCE!!
         }
-
     }
+
 }

@@ -24,12 +24,13 @@ class MainActivity : AppCompatActivity() {
 
     lateinit var recyclerView:RecyclerView
     lateinit var storeViewModel: StoreViewModel
-
+    val databaseURL =
+            "http://sandbox.bottlerocketapps.com/BR_Android_CodingExam_2015_Server/stores.json"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
+        title = "Stores"
         recyclerView = recycler_view
         recyclerView.layoutManager = LinearLayoutManager(this)
 
@@ -37,8 +38,9 @@ class MainActivity : AppCompatActivity() {
                 ViewModelProviders.of(this@MainActivity).get(StoreViewModel::class.java)
 
         if(networkAvailable()){
-            insertData()
-            loadDataToRecyclerView()
+            if(insertData()){
+                loadDataToRecyclerView()
+            }
         }else{
             loadDataToRecyclerView()
             Snackbar.make(recyclerView,
@@ -49,19 +51,17 @@ class MainActivity : AppCompatActivity() {
 
     fun loadDataToRecyclerView(){
         storeViewModel
-                .allStores
-                .observe(this@MainActivity, Observer<List<StoreObject>>() {
-                    if(it != null){
-                        recyclerView.adapter = RecyclerAdapter(it as MutableList<StoreObject>)
-                        recyclerView.adapter.notifyDataSetChanged()
-                    }
-                })
+            .allStores
+            .observe(this@MainActivity, Observer<List<StoreObject>>() {
+                if(it != null){
+                    recyclerView.adapter = RecyclerAdapter(it as MutableList<StoreObject>)
+                    recyclerView.adapter.notifyDataSetChanged()
+                }
+            })
     }
 
-
-    fun insertData(){
-        val databaseURL =
-                "http://sandbox.bottlerocketapps.com/BR_Android_CodingExam_2015_Server/stores.json"
+    fun insertData():Boolean{
+        var JsonActive:Boolean = false
         val request = Request.Builder().url(databaseURL).build()
         val client = OkHttpClient()
         loadDataToRecyclerView()
@@ -70,25 +70,30 @@ class MainActivity : AppCompatActivity() {
             override fun onFailure(call: Call, e: IOException) {
                 Snackbar.make(recyclerView,
                         "Json Call Failed",
-                        Snackbar.LENGTH_INDEFINITE)
+                        Snackbar.LENGTH_SHORT)
                         .setAction("RETRY") {
                             insertData()
                         }.show()
             }
 
             override fun onResponse(call: Call, response: Response) {
-                storeViewModel.deleteAll()
-
                 //takes Json response and inserts objects into Room Database
-                val body = response.body()?.string()
-                val gson = GsonBuilder().create()
-                val jsonArray = gson.fromJson(body, StoreJsonArray::class.java)
-                for (store in jsonArray.stores){
-                    storeViewModel.insert(store)
+                if(response.isSuccessful){
+                    storeViewModel.deleteAll()
+                    val body = response.body()?.string()
+                    val gson = GsonBuilder().create()
+                    val jsonArray = gson.fromJson(body, StoreJsonArray::class.java)
+                    for (store in jsonArray.stores){
+                        storeViewModel.insert(store)
+                    }
+                    JsonActive = true
+                }else{
+                    jsonNotFound()
+                    JsonActive = false
                 }
-
             }
         })
+        return JsonActive
     }
 
     //takes in Json
@@ -100,6 +105,15 @@ class MainActivity : AppCompatActivity() {
                 = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val activeNetworkInfo:NetworkInfo? = connectivityManager.activeNetworkInfo
         return activeNetworkInfo != null && activeNetworkInfo.isConnected
+    }
+
+    fun jsonNotFound(){
+        Snackbar.make(recyclerView,
+                "JSON NOT FOUND",
+                Snackbar.LENGTH_INDEFINITE)
+                .setAction("RETRY") {
+                    insertData()
+                }.show()
     }
 }
 

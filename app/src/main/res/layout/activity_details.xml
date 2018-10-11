@@ -6,44 +6,27 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/detail_banner_name_textview"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="@color/colorPrimary"
-        android:gravity="center"
-        android:textAlignment="center"
-        android:textColor="@color/colorAccent"
-        android:textColorHint="@color/colorAccent"
-        android:textSize="36sp"
-        android:textStyle="bold"
-        tools:text="Store Name"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <ImageView
         android:id="@+id/detail_store_imageView"
-        android:layout_width="0dp"
-        android:layout_height="200dp"
+        android:layout_width="336dp"
+        android:layout_height="120dp"
         android:layout_marginTop="8dp"
         android:background="@android:color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/detail_banner_name_textview"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/detail_store_name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="64dp"
         android:textColor="@color/colorPrimary"
         android:textSize="30sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/storeIcon"
         app:layout_constraintTop_toBottomOf="@+id/detail_store_imageView"
         tools:text="Store Name" />
 
@@ -51,25 +34,24 @@
         android:id="@+id/detail_store_number"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="4dp"
         android:text="@string/store_number_label"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/storeIcon"
         app:layout_constraintTop_toBottomOf="@+id/detail_store_name" />
 
     <TextView
         android:id="@+id/detail_store_address"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="18dp"
+        android:layout_marginEnd="4dp"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/mapIcon"
         app:layout_constraintTop_toBottomOf="@+id/detail_store_number"
         tools:text="101 Main Street Dallas TX 75236" />
 
@@ -77,12 +59,61 @@
         android:id="@+id/detail_store_phone_number"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/phoneIcon"
         app:layout_constraintTop_toBottomOf="@+id/detail_store_address"
         tools:text="XXX-XXX-XXXX" />
+
+    <ImageView
+        android:id="@+id/mapIcon"
+        android:layout_width="39dp"
+        android:layout_height="39dp"
+        app:layout_constraintBottom_toBottomOf="@+id/detail_store_address"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/detail_store_address"
+        app:srcCompat="@drawable/ic_map_red_24dp" />
+
+    <ImageView
+        android:id="@+id/storeIcon"
+        android:layout_width="39dp"
+        android:layout_height="39dp"
+        app:layout_constraintBottom_toBottomOf="@+id/detail_store_name"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/detail_store_name"
+        app:srcCompat="@drawable/ic_store_red_24dp" />
+
+    <ImageView
+        android:id="@+id/phoneIcon"
+        android:layout_width="39dp"
+        android:layout_height="39dp"
+        app:layout_constraintBottom_toBottomOf="@+id/detail_store_phone_number"
+        app:layout_constraintTop_toTopOf="@+id/detail_store_phone_number"
+        app:srcCompat="@drawable/ic_phone_red_24dp"
+        tools:layout_editor_absoluteX="0dp" />
+
+    <ImageView
+        android:id="@+id/locationIcon"
+        android:layout_width="39dp"
+        android:layout_height="39dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/detail_store_phone_number"
+        app:srcCompat="@drawable/ic_place_red_24dp" />
+
+    <TextView
+        android:id="@+id/detail_store_lat_long"
+        android:layout_width="0dp"
+        android:layout_height="32dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="1dp"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="@+id/locationIcon"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/locationIcon"
+        app:layout_constraintTop_toTopOf="@+id/locationIcon"
+        tools:text="28.068052,-82.573301" />
 </android.support.constraint.ConstraintLayout>

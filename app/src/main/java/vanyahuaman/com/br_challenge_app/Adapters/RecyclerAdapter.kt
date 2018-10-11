@@ -30,7 +30,6 @@ class RecyclerAdapter(storesArray: MutableList<StoreObject>): RecyclerView.Adapt
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-
         val addressString =
                 "${stores[position].address}, \n" +
                         "${stores[position].city}, " +
@@ -41,11 +40,9 @@ class RecyclerAdapter(storesArray: MutableList<StoreObject>): RecyclerView.Adapt
         holder.storeNumber.text = stores[position].phone
         holder.storeAddress.text = addressString
 
+        //loading image from URL
         if(stores[position].storeLogoURL != null){
-
-
             val options = RequestOptions()
-                    .placeholder(R.drawable.loading_image)
                     .error(R.drawable.no_image_found)
             Glide.with(context)
                     .load(stores[position].storeLogoURL)

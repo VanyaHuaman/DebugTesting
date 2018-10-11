@@ -14,7 +14,6 @@ class StoreRepository internal constructor(application: Application) {
         val db = StoreRoomDatabase.getDatabase(application)
         storeDao = db.storeDao()
         allStores = storeDao.allStores()
-
     }
 
     fun deleteAll() {
