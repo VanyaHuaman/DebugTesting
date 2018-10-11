@@ -1,8 +1,9 @@
-package vanyahuaman.com.br_challenge_app
+package vanyahuaman.com.br_challenge_app.Database
 
 import android.app.Application
 import android.arch.lifecycle.AndroidViewModel
 import android.arch.lifecycle.LiveData
+import vanyahuaman.com.br_challenge_app.data.StoreObject
 
 class StoreViewModel(application: Application) : AndroidViewModel(application) {
 

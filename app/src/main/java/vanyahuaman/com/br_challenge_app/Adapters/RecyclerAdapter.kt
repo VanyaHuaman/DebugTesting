@@ -1,4 +1,4 @@
-package vanyahuaman.com.br_challenge_app
+package vanyahuaman.com.br_challenge_app.Adapters
 
 import android.content.Context
 import android.content.Intent
@@ -9,6 +9,9 @@ import android.view.ViewGroup
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import kotlinx.android.synthetic.main.list_item.view.*
+import vanyahuaman.com.br_challenge_app.Activities.DetailActivity
+import vanyahuaman.com.br_challenge_app.R
+import vanyahuaman.com.br_challenge_app.data.StoreObject
 
 
 class RecyclerAdapter(storesArray: MutableList<StoreObject>): RecyclerView.Adapter<RecyclerAdapter.ViewHolder>() {
@@ -51,7 +54,7 @@ class RecyclerAdapter(storesArray: MutableList<StoreObject>): RecyclerView.Adapt
         }
 
         holder.parentLayout.setOnClickListener {
-            val intent = Intent(context,DetailActivity::class.java)
+            val intent = Intent(context, DetailActivity::class.java)
                 intent.putExtra("store",stores[position])
                 context.startActivity(intent)
         }

@@ -1,10 +1,12 @@
-package vanyahuaman.com.br_challenge_app
+package vanyahuaman.com.br_challenge_app.Activities
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import kotlinx.android.synthetic.main.activity_details.*
+import vanyahuaman.com.br_challenge_app.R
+import vanyahuaman.com.br_challenge_app.data.StoreObject
 
 class DetailActivity : AppCompatActivity(){
 
@@ -12,7 +14,7 @@ class DetailActivity : AppCompatActivity(){
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_details)
 
-        val store:StoreObject = intent.getSerializableExtra("store") as StoreObject
+        val store: StoreObject = intent.getSerializableExtra("store") as StoreObject
 
         val addressString =
                 "${store.address}, \n" +
