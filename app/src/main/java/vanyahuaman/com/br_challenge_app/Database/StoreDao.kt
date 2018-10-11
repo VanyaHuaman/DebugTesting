@@ -10,7 +10,7 @@ import vanyahuaman.com.br_challenge_app.data.StoreObject
 @Dao
 interface StoreDao {
 
-    @Query("SELECT * from store_table")
+    @Query("SELECT * from store_table ORDER BY name ASC")
     fun allStores(): LiveData<List<StoreObject>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

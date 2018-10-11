@@ -39,6 +39,7 @@ class RecyclerAdapter(storesArray: MutableList<StoreObject>): RecyclerView.Adapt
         holder.storeName.text = stores[position].name
         holder.storeNumber.text = stores[position].phone
         holder.storeAddress.text = addressString
+        holder.storeID.text = "Store# ${stores[position].storeID}"
 
         //loading image from URL
         if(stores[position].storeLogoURL != null){
@@ -60,6 +61,7 @@ class RecyclerAdapter(storesArray: MutableList<StoreObject>): RecyclerView.Adapt
     class ViewHolder(itemView : View) : RecyclerView.ViewHolder(itemView) {
         val parentLayout = itemView.item_root
         val storeName = itemView.item_store_name
+        val storeID = itemView.item_store_num
         val storeNumber = itemView.item_store_phone
         val storeAddress = itemView.item_store_address
         val storeImage = itemView.item_image
